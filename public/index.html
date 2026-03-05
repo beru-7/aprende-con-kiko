@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende con Kiko | English Quest 🦊</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="md3-surface">
+    
+    <div id="splash-screen" class="md3-splash">
+        <div class="splash-content">
+            <div class="splash-logo">🦊</div>
+            <div class="md3-progress-linear">
+                <div class="progress-bar-indeterminate"></div>
+            </div>
+            <h2 class="md3-headline-small">Aprende con Kiko</h2>
+        </div>
+    </div>
+
+    <div class="md3-fab-buddy pos-welcome" id="buddy">
+        <div class="md3-buddy-bubble" id="buddy-bubble">¡Hola! Soy Kiko 🦊</div>
+        <div class="md3-buddy-container" id="buddy-emoji" onclick="pokeBuddy()">
+            <span class="emoji-icon">🦊</span>
+        </div>
+    </div>
+
+    <div class="md3-container">
+        
+        <header class="md3-top-app-bar">
+            <button class="md3-icon-button" onclick="logout()" title="Cerrar Sesión">
+                <span class="material-symbols-rounded">logout</span>
+            </button>
+            
+            <button class="md3-icon-button" onclick="goToHome()" title="Inicio">
+                <span class="material-symbols-rounded">home</span>
+            </button>
+            
+            <div class="md3-header-spacer"></div>
+
+            <div class="md3-header-controls">
+                <button class="md3-icon-button" onclick="showScreen('screen-profile')" title="Mi Perfil">
+                    <span class="material-symbols-rounded">account_circle</span>
+                </button>
+
+                <button class="md3-icon-button" onclick="toggleMusic()" title="Música">
+                    <span class="material-symbols-rounded" id="icon-music">music_note</span>
+                </button>
+                <button class="md3-icon-button" onclick="toggleSFX()" title="Efectos">
+                    <span class="material-symbols-rounded" id="icon-sfx">volume_up</span>
+                </button>
+                <button class="md3-icon-button" onclick="showScreen('screen-trophies')" title="Trofeos">
+                    <span class="material-symbols-rounded">emoji_events</span>
+                </button>
+                
+                <div class="md3-switch-wrapper">
+                    <label class="md3-switch" for="checkbox-theme">
+                        <input type="checkbox" id="checkbox-theme" onclick="toggleTheme()">
+                        <span class="md3-switch-slider">
+                            <span class="material-symbols-rounded icon-sun">light_mode</span>
+                            <span class="material-symbols-rounded icon-moon">dark_mode</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <section id="screen-login" class="md3-screen">
+            <div class="md3-hero-icon" style="font-size: 5rem; margin-bottom: 20px;">🦊🔐</div>
+            <h1 class="md3-headline-medium" id="auth-title" style="margin-bottom: 30px;">Iniciar Sesión</h1>
+            <div class="md3-form-container">
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">person</span>
+                    <input type="text" id="auth-user" class="md3-input" placeholder="Usuario" autocomplete="off">
+                </div>
+                <div class="input-wrapper">
+                    <span class="material-symbols-rounded input-icon">key</span>
+                    <input type="password" id="auth-pass" class="md3-input" placeholder="Contraseña">
+                </div>
+                <p id="auth-error" class="md3-error-msg"></p>
+                <button class="md3-btn-filled" onclick="handleAuth()" style="width: 100%; margin-top: 10px;">
+                    <span class="material-symbols-rounded">login</span>
+                    <span id="auth-btn-text">INGRESAR</span>
+                </button>
+            </div>
+            <div style="margin-top: 30px;">
+                <p class="md3-body-small" style="opacity: 0.8;"><span id="auth-switch-text">¿No tienes cuenta?</span></p>
+                <button class="md3-btn-text" onclick="toggleAuthMode()">Haz clic aquí</button>
+            </div>
+        </section>
+
+        <main id="screen-welcome" class="md3-screen active">
+            <div class="md3-hero-icon">🦊🌍</div>
+            <h1 class="md3-display-large">Aprende con Kiko</h1>
+            <p class="md3-body-large">Tu espacio para practicar ingles<br></p>
+            <div class="md3-actions-vertical">
+                <button id="start-btn" class="md3-btn-filled" onclick="initAudio(); showTopics();">
+                    <span class="material-symbols-rounded">rocket_launch</span>
+                    COMENZAR AVENTURA
+                </button>
+                <button class="md3-btn-tonal" onclick="initCallMode()">
+                    <span class="material-symbols-rounded">call</span>
+                    LLAMAR A KIKO
+                </button>
+            </div>
+        </main>
+
+        <section id="screen-profile" class="md3-screen">
+            <h2 class="md3-headline-medium">Tu Perfil</h2>
+            
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <img id="profile-img-display" src="https://via.placeholder.com/150?text=🦊" alt="Avatar">
+                    <label for="avatar-input" class="edit-badge">
+                        <span class="material-symbols-rounded">edit</span>
+                    </label>
+                    <input type="file" id="avatar-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                </div>
+                <h3 id="profile-username-display" class="md3-headline-small">Usuario</h3>
+            </div>
+
+            <button class="md3-btn-text" onclick="goToHome()" style="margin-top: 40px;">
+                <span class="material-symbols-rounded">arrow_back</span> Volver
+            </button>
+        </section>
+
+        <section id="screen-topics" class="md3-screen">
+            <h2 class="md3-headline-medium">Mapa de Aprendizaje</h2>
+            <div class="md3-grid" id="topic-container"></div>
+        </section>
+
+        <section id="screen-focus" class="md3-screen">
+            <h2 id="focus-title" class="md3-headline-medium">Enfoque</h2>
+            <div class="md3-list-container" id="subtopic-container"></div>
+            <button class="md3-btn-text" onclick="showTopics()">
+                <span class="material-symbols-rounded">arrow_back</span> Volver
+            </button>
+        </section>
+
+        <section id="screen-levels" class="md3-screen">
+            <h2 id="selected-level-title" class="md3-headline-medium">Configuración</h2>
+            <div class="md3-settings-chips">
+                <div class="md3-chip">
+                    <span class="material-symbols-rounded">translate</span>
+                    <span class="md3-label">ES / EN</span>
+                    <label class="md3-mini-switch">
+                        <input type="checkbox" id="lang-toggle">
+                        <span class="mini-slider"></span>
+                    </label>
+                </div>
+                <div class="md3-chip">
+                    <span class="material-symbols-rounded">lightbulb</span>
+                    <span class="md3-label">Pistas</span>
+                    <label class="md3-mini-switch">
+                        <input type="checkbox" id="hint-toggle" checked>
+                        <span class="mini-slider"></span>
+                    </label>
+                </div>
+            </div>
+            <p id="level-instr" class="md3-body-medium">Completa el 90% para desbloquear.</p>
+            <div id="level-container" class="md3-grid-levels"></div>
+            <button class="md3-btn-text" onclick="backToFocus()">
+                <span class="material-symbols-rounded">arrow_back</span> Volver
+            </button>
+        </section>
+
+        <section id="screen-quiz" class="md3-screen">
+            <div class="md3-progress-indicator">
+                <div id="progress-bar" class="md3-progress-fill"></div>
+            </div>
+            <span id="quiz-badge" class="md3-badge">TEMA</span>
+            <h2 id="question-text" class="md3-headline-small">Cargando...</h2>
+            <div id="hint-box" class="md3-card-hint">
+                <span class="material-symbols-rounded md3-icon-hint">info</span>
+                <div>
+                    <span class="md3-label-large" style="color: var(--md-sys-color-primary);">Tip:</span>
+                    <p id="hint-text" class="md3-body-medium">...</p>
+                </div>
+            </div>
+            <div id="options-area" class="md3-options-grid"></div>
+            <button class="md3-btn-text" onclick="quitQuiz()">Salir del reto</button>
+        </section>
+
+        <section id="screen-result" class="md3-screen">
+            <div class="md3-result-icon" id="result-emoji">🎉</div>
+            <h2 id="result-title" class="md3-headline-large">¡Resultado!</h2>
+            <p id="result-score" class="md3-display-medium">80%</p>
+            <div class="md3-notifications">
+                <div id="unlock-notification" style="display:none;" class="md3-snackbar success">
+                    <span class="material-symbols-rounded">lock_open</span> ¡Nivel Desbloqueado!
+                </div>
+                <div id="trophy-notification" style="display:none;" class="md3-snackbar trophy">
+                    <span class="material-symbols-rounded">workspace_premium</span> ¡Nuevo Trofeo!
+                </div>
+            </div>
+            <p id="result-msg" class="md3-body-large">Mensaje</p>
+            <div class="md3-actions-horizontal">
+                <button class="md3-btn-filled" onclick="showTopics()">Otro tema</button>
+                <button class="md3-btn-outline" onclick="retryLevel()">Reintentar</button>
+            </div>
+        </section>
+
+        <section id="screen-call" class="md3-screen">
+            <div class="md3-call-avatar" id="kiko-face">🦊</div>
+            <div class="md3-status-label" id="call-status">Presiona el micro</div>
+            <div class="md3-audio-waves" id="wave-visual">
+                <div class="md3-wave w1"></div>
+                <div class="md3-wave w2"></div>
+                <div class="md3-wave w3"></div>
+            </div>
+            <div class="md3-chat-card" id="chat-text">"Hello!"</div>
+            <div class="md3-call-actions">
+                <button class="md3-fab-large btn-mic" id="mic-btn" onclick="toggleMic()">
+                    <span class="material-symbols-rounded">mic</span>
+                </button>
+                <button class="md3-fab-standard btn-close" onclick="endCall()">
+                    <span class="material-symbols-rounded">call_end</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="screen-trophies" class="md3-screen">
+            <h2 class="md3-headline-medium">Tu Colección</h2>
+            <p class="md3-body-medium">Trofeos ganados: <span id="trophy-count">0</span></p>
+            <div class="md3-trophy-grid" id="trophy-container"></div>
+            <button class="md3-btn-text" onclick="goToHome()">
+                <span class="material-symbols-rounded">arrow_back</span> Volver
+            </button>
+        </section>
+
+    </div> <div id="cropper-modal" class="cropper-modal-overlay" style="display: none;">
+        <div class="cropper-modal-content">
+            <h3 class="md3-headline-small">Recortar Imagen</h3>
+            <div class="cropper-image-container">
+                <img id="image-to-crop" src="" alt="Imagen para recortar">
+            </div>
+            <div class="cropper-actions">
+                <button class="md3-btn-text" onclick="closeCropperModal()">Cancelar</button>
+                <button class="md3-btn-filled" onclick="saveCroppedImage()">
+                    <span class="material-symbols-rounded">crop</span> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
