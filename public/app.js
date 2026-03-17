@@ -77,39 +77,42 @@ const buddyBubble = document.getElementById('buddy-bubble');
 let buddyTimeout;
 
 function updateBuddyPosition(screenId) {
-    buddyContainer.className = 'md3-fab-buddy'; 
-    if (screenId === 'screen-welcome') {
-        buddyContainer.style.cssText = "top: 15%; left: 10%; transform: scale(1.2);";
-    } else if (screenId === 'screen-login') {
-        buddyContainer.style.cssText = "top: 20px; left: 20px; transform: scale(0.8);";
-    } else if (screenId === 'screen-quiz') {
-        buddyContainer.style.cssText = "top: 80px; right: 24px; transform: scale(0.9);";
-    } else if (screenId === 'screen-result') {
-        buddyContainer.style.cssText = "top: 10%; left: 50%; transform: translateX(-50%) scale(1.3);";
-    } else if (screenId === 'screen-profile') {
-        buddyContainer.style.cssText = "bottom: 20px; left: 20px; transform: scale(0.9);";
-    } else {
-        buddyContainer.style.cssText = "bottom: 24px; right: 24px; transform: scale(1);";
-    }
+    buddyContainer.className = 'md3-fab-buddy pos-welcome';
+    buddyContainer.style.cssText = "top: 15%; left: 10%; transform: scale(1.2);";
 }
 
 function setBuddyMood(mood, text = "") {
     if(!buddyEmoji) return;
     buddyEmoji.className = 'md3-buddy-container';
+    buddyEmoji.classList.remove('anim-bounce', 'anim-shake');
+
     if (mood === 'happy') buddyEmoji.classList.add('anim-bounce');
     else if (mood === 'thinking') buddyEmoji.classList.add('anim-shake');
-    
-    if (text && buddyBubble) { 
-        buddyBubble.innerText = text; 
-        buddyBubble.classList.add('visible'); 
-        clearTimeout(buddyTimeout); 
-        buddyTimeout = setTimeout(() => { buddyBubble.classList.remove('visible'); }, 3000); 
+    else if (mood === 'celebrate') {
+        buddyEmoji.classList.add('anim-bounce');
+        text = text || "¡Increíble logro!";
+    }
+
+    if (text && buddyBubble) {
+        buddyBubble.innerText = text;
+        buddyBubble.classList.add('visible');
+        clearTimeout(buddyTimeout);
+        buddyTimeout = setTimeout(() => { buddyBubble.classList.remove('visible'); }, 4000);
     }
 }
 
-function pokeBuddy() { 
-    playSound('click'); 
-    setBuddyMood('happy', "¡Vamos!"); 
+const buddySupportMessages = [
+    "¡Tú puedes con esto!",
+    "Sigue así, vamos paso a paso.",
+    "Estoy muy orgulloso de ti.",
+    "Cada error es un paso hacia adelante.",
+    "¡Eres un campeón del inglés!"
+];
+
+function pokeBuddy() {
+    playSound('click');
+    const message = buddySupportMessages[Math.floor(Math.random() * buddySupportMessages.length)];
+    setBuddyMood('happy', message);
 }
 
 
@@ -219,7 +222,10 @@ async function handleAuth() {
 
 async function loadData() {
     if(!currentUser) return;
-    
+
+    userProgress = JSON.parse(localStorage.getItem('emq17_progress')) || userProgress;
+    earnedTrophies = JSON.parse(localStorage.getItem('emq17_trophies')) || earnedTrophies;
+    renderTrophies();
 }
 
 async function saveData() {
@@ -500,7 +506,10 @@ function loadQuestion() {
     hintBox.style.display = showHints ? "flex" : "none";
 
     document.getElementById('quiz-badge').innerText = currentTopicId.toUpperCase();
-    document.getElementById('progress-bar').style.width = ((qIndex / currentQuestions.length) * 100) + "%";
+    const progressPercent = Math.round((qIndex / currentQuestions.length) * 100);
+    document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+    const progressText = document.getElementById('quiz-progress-text');
+    if (progressText) progressText.innerText = `Pregunta ${qIndex + 1} de ${currentQuestions.length} (${progressPercent}%)`;
     
     const area = document.getElementById('options-area'); 
     area.innerHTML = '';
@@ -540,18 +549,79 @@ function checkAnswer(btn, isCorrect, allOps) {
     }, 1500);
 }
 
+function renderTrophies() {
+    const container = document.getElementById('trophy-container');
+    const count = document.getElementById('trophy-count');
+    if (!container || !count) return;
+
+    container.innerHTML = '';
+    earnedTrophies.forEach(trophy => {
+        const card = document.createElement('div');
+        card.className = 'md3-card-topic';
+        card.style.textAlign = 'center';
+        card.innerHTML = `
+            <div style="font-size:2.2rem; margin-bottom:6px;">${trophy.emoji}</div>
+            <strong>${trophy.title}</strong>
+            <p style="margin-top:6px; font-size:0.85rem; color:var(--md-sys-color-on-surface-variant);">${trophy.description || ''}</p>
+        `;
+        container.appendChild(card);
+    });
+    count.innerText = earnedTrophies.length;
+}
+
+function addTrophy(id, emoji, title, description) {
+    if (earnedTrophies.some(t => t.id === id)) return false;
+    earnedTrophies.push({ id, emoji, title, description });
+    showUnlockNotification(`${emoji} ${title}`);
+    renderTrophies();
+    return true;
+}
+
+function showUnlockNotification(text) {
+    const unlockEl = document.getElementById('unlock-notification');
+    if (!unlockEl) return;
+    unlockEl.textContent = text;
+    unlockEl.style.display = 'flex';
+    setTimeout(() => { unlockEl.style.display = 'none'; }, 2500);
+}
+
+function checkAndAwardTrophies(pct) {
+    if (!userProgress[currentTopicId]) userProgress[currentTopicId] = {};
+
+    if (currentLevel === 'easy' && pct === 100) userProgress[currentTopicId].easy = true;
+    if (currentLevel === 'medium' && pct === 100) userProgress[currentTopicId].medium = true;
+    if (currentLevel === 'hard' && pct === 100) userProgress[currentTopicId].hard = true;
+
+    const progress = userProgress[currentTopicId];
+    if (progress.easy && progress.medium && progress.hard) {
+        if (addTrophy(`trophy_${currentTopicId}`, '🏆', `Maestro ${currentTopicId}`, 'Completaste 100% en fácil, medio y difícil')) {
+            setBuddyMood('celebrate', `¡Increíble! Has ganado el trofeo de ${currentTopicId}.`);
+            playSound('correct');
+        }
+    }
+
+    if (pct === 100) {
+        setBuddyMood('celebrate', "¡100% conseguidos! Eres una leyenda 💪");
+        playSound('correct');
+    }
+}
+
 function finishQuiz() {
     showScreen('screen-result');
     const pct = Math.round((score / currentQuestions.length) * 100);
     document.getElementById('result-score').innerText = `${pct}%`;
     document.getElementById('result-msg').innerText = pct >= 70 ? "¡Misión cumplida!" : "¡Sigue intentando!";
-    
+
     if(!userProgress[currentTopicId]) userProgress[currentTopicId] = {};
     if(currentLevel === 'easy' && pct >= 90) userProgress[currentTopicId].medium = true;
     if(currentLevel === 'medium' && pct >= 95) userProgress[currentTopicId].hard = true;
-    
-    
+
+    if (pct === 100) {
+        checkAndAwardTrophies(pct);
+    }
+
     saveData();
+    renderTrophies();
 }
 
 function retryLevel() { prepareQuiz(currentLevel); }
@@ -637,11 +707,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (savedUser) {
             currentUser = savedUser;
             loadData(); 
+            renderTrophies();
             showScreen('screen-welcome'); 
             setBuddyMood('happy', `¡Hola de nuevo, ${currentUser}! 👋`);
         } else {
             showScreen('screen-login');
-            setBuddyMood('happy', "¡Bienvenido! Inicia sesión.");
-        }
+            setBuddyMood('happy', "¡Bienvenido, ${currentUser}! Inicia sesión.");
+        } 
+
     }, 2500);
 });

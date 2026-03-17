@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/.env' });
+console.log("LA URL ES:", process.env.DATABASE_URL);
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
