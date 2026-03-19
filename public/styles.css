@@ -1,24 +1,24 @@
 /* === VARIABLES DE TEMA (Material Design 3) === */
 /* Definen la paleta de colores y transiciones que usa toda la aplicación. */
 :root {
-    --md-sys-color-primary: #006495;
-    --md-sys-color-on-primary: #f1eaea;
-    --md-sys-color-primary-container: #ffffff;
-    --md-sys-color-on-primary-container: #001e30;
+    --md-sys-color-primary: #1f73d2;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #e8f0ff;
+    --md-sys-color-on-primary-container: #0f3f80;
     
-    --md-sys-color-secondary: #50606e;
+    --md-sys-color-secondary: #00695c;
     --md-sys-color-on-secondary: #ffffff;
-    --md-sys-color-secondary-container: #0e86ee;
-    --md-sys-color-on-secondary-container: #0c1d29;
+    --md-sys-color-secondary-container: #d0f3ec;
+    --md-sys-color-on-secondary-container: #004d42;
 
     --md-sys-color-error: #ba1a1a;
-    --md-sys-color-on-error: #000000;
+    --md-sys-color-on-error: #ffffff;
 
-    --md-sys-color-surface: #d3d4d8;
-    --md-sys-color-on-surface: #000000;
-    --md-sys-color-surface-container: #eff1f4;
-    --md-sys-color-surface-container-high: #e9ebef;
-    --md-sys-color-outline: #384490;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #1b1f23;
+    --md-sys-color-surface-container: #f7f8fa;
+    --md-sys-color-surface-container-high: #edf1f7;
+    --md-sys-color-outline: #9aa6b6;
     
     --transition-standard: all 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
@@ -28,12 +28,18 @@
 body.dark-mode {
     --md-sys-color-primary: #8ecdff;
     --md-sys-color-on-primary: #003450;
+    --md-sys-color-primary-container: #1b2a3c;
+    --md-sys-color-secondary: #66f3d7;
+    --md-sys-color-on-secondary: #003731;
+    --md-sys-color-secondary-container: #274f49;
+    
     --md-sys-color-surface: #0a0b0c;
     --md-sys-color-on-surface: #e1e2e5;
     --md-sys-color-surface-container: #1d2023;
     --md-sys-color-surface-container-high: #282a2d;
-    --md-sys-color-primary-container: #282a2d;
+    --md-sys-color-outline: #4c6179;
 }
+
 
 /* === ESTILOS BASE === */
 /* Tipografía y layout global del body (centra la app en la ventana). */
@@ -183,24 +189,70 @@ input:checked + .md3-switch-slider .icon-sun { opacity: 0; }
 body.dark-mode .md3-trophy-card { background-color: #3e2723; border-color: #5d4037; color: #ffe0b2; }
 
 /* === ESTILOS DE BOTONES === */
-/* Botones principales de la app: acción, tonal, fab, etc. */
+/* Botones principales de la app: acción, tonal, outline, text. */
 .md3-actions-vertical {
     display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; margin-top: 24px;
 }
 
+button,
+.md3-btn-filled,
+.md3-btn-tonal,
+.md3-btn-outline,
+.md3-btn-text {
+    font-family: 'Roboto', sans-serif;
+    border: none;
+    height: 48px;
+    border-radius: 24px;
+    padding: 0 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: var(--transition-standard);
+}
+
 .md3-btn-filled {
-    background-color: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
-    border: none; height: 48px; border-radius: 24px; padding: 0 24px;
-    font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.md3-btn-filled:hover {
+    background-color: #004b7a;
 }
 
 .md3-btn-tonal {
-    background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container);
-    border: none; height: 48px; border-radius: 24px; padding: 0 24px; font-weight: 500; cursor: pointer;
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+}
+
+.md3-btn-tonal:hover {
+    background-color: #11aad5;
+}
+
+.md3-btn-outline {
+    background: transparent;
+    border: 1px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-on-surface);
+}
+
+.md3-btn-outline:hover {
+    background: var(--md-sys-color-surface-container-high);
+}
+
+.md3-btn-text {
+    background: transparent;
+    color: var(--md-sys-color-primary);
+}
+
+.md3-btn-text:hover {
+    background: rgba(0, 100, 190, 0.12);
 }
 
 .btn-close {
-    background-color: var(--md-sys-color-error) !important; color: var(--md-sys-color-on-error) !important;
+    background-color: var(--md-sys-color-error) !important;
+    color: var(--md-sys-color-on-error) !important;
 }
 
 .md3-progress-indicator {
@@ -265,13 +317,54 @@ body.dark-mode .md3-trophy-card { background-color: #3e2723; border-color: #5d40
 .md3-option-card:hover { border-color: var(--md-sys-color-outline); }
 
 /* === MODO LLAMADA === */
-/* Ajusta estilos para la pantalla de llamada de voz, incluida la animación de ondas. */
-body.call-mode .md3-container { background-color: #111416 !important; }
+/* Ajusta estilos de llamada para que respeten el tema claro/oscuro. */
+body.call-mode:not(.dark-mode) .md3-container {
+    background-color: var(--md-sys-color-surface-container);
+}
+body.call-mode.dark-mode .md3-container {
+    background-color: var(--md-sys-color-surface-container);
+}
+
 .md3-chat-card {
-    background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--md-sys-color-on-surface);
     padding: 24px; border-radius: 24px; margin: 20px 0;
 }
+
 .md3-call-actions { display: flex; gap: 20px; margin-top: 24px; }
+
+.btn-mic,
+.btn-close {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-on-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: var(--transition-standard);
+}
+
+.btn-mic {
+    background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
+}
+
+.btn-mic:hover {
+    transform: scale(1.05);
+}
+
+.btn-close {
+    background: var(--md-sys-color-error);
+    color: var(--md-sys-color-on-error);
+}
+
+.btn-close:hover {
+    filter: brightness(1.1);
+}
 
 /* === ANIMACIONES === */
 /* Transiciones suaves para entrada de componentes y splash screen. */

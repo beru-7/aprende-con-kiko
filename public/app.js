@@ -106,7 +106,15 @@ const buddySupportMessages = [
     "Sigue así, vamos paso a paso.",
     "Estoy muy orgulloso de ti.",
     "Cada error es un paso hacia adelante.",
-    "¡Eres un campeón del inglés!"
+    "¡Eres un campeón del inglés!",
+    "¡Vamos por ese próximo nivel!",
+    "¡No te rindas, lo estás haciendo genial!",
+    "¡Cada pregunta te hace más fuerte!",
+    "¡Estoy aquí para ayudarte siempre!",
+    "¡Tu esfuerzo es lo que más importa!",
+    "Arremangala arrempujala, si, arremangala arrempujala, no 🎵",
+    "¡Recuerda que la práctica hace al maestro!",
+    "Juega minecraft, aprende inglés. ¡Es la fórmula secreta! 😉"   
 ];
 
 function pokeBuddy() {
@@ -529,17 +537,31 @@ function checkAnswer(btn, isCorrect, allOps) {
     btns.forEach(b => b.disabled = true);
 
     if(isCorrect) {
-        btn.style.backgroundColor = "var(--md-sys-color-primary-container)";
-        score++; 
-        playSound('correct'); 
-        setBuddyMood('happy', "¡Excelente!");
+        btn.style.backgroundColor = "#b8f5c9"; // verde claro indicando ok
+        btn.style.color = "#005a25";
+        score++;
+        playSound('correct');
+        setBuddyMood('celebrate', "¡Excelente!");
+        buddyEmoji.classList.add('anim-celebrate');
+        setTimeout(() => buddyEmoji.classList.remove('anim-celebrate'), 600);
     } else {
         btn.style.backgroundColor = "rgba(186, 26, 26, 0.2)";
-        playSound('incorrect'); 
+        playSound('incorrect');
         setBuddyMood('thinking', "¡Casi!");
+
+        // Destacar la respuesta correcta con un borde
         btns.forEach(b => {
-             if(b.innerText === allOps.find(o => o.isCorrect).txt) b.style.border = "2px solid var(--md-sys-color-primary)";
+            if(b.innerText === allOps.find(o => o.isCorrect).txt) {
+                b.style.border = "2px solid var(--md-sys-color-primary)";
+            }
         });
+
+        // Vibrar emojis en las tarjetas
+        const emojiNodes = document.querySelectorAll('.emoji-icon');
+        emojiNodes.forEach(e => e.classList.add('anim-vibrate'));
+        setTimeout(() => {
+            emojiNodes.forEach(e => e.classList.remove('anim-vibrate'));
+        }, 600);
     }
 
     setTimeout(() => {
@@ -560,7 +582,7 @@ function renderTrophies() {
         card.className = 'md3-card-topic';
         card.style.textAlign = 'center';
         card.innerHTML = `
-            <div style="font-size:2.2rem; margin-bottom:6px;">${trophy.emoji}</div>
+            <div style="font-size:10.2rem; margin-bottom:6px;">${trophy.emoji}</div>
             <strong>${trophy.title}</strong>
             <p style="margin-top:6px; font-size:0.85rem; color:var(--md-sys-color-on-surface-variant);">${trophy.description || ''}</p>
         `;
@@ -574,6 +596,7 @@ function addTrophy(id, emoji, title, description) {
     earnedTrophies.push({ id, emoji, title, description });
     showUnlockNotification(`${emoji} ${title}`);
     renderTrophies();
+    saveData(); // Guardar progresos y trofeos inmediatamente
     return true;
 }
 
@@ -588,22 +611,47 @@ function showUnlockNotification(text) {
 function checkAndAwardTrophies(pct) {
     if (!userProgress[currentTopicId]) userProgress[currentTopicId] = {};
 
-    if (currentLevel === 'easy' && pct === 100) userProgress[currentTopicId].easy = true;
-    if (currentLevel === 'medium' && pct === 100) userProgress[currentTopicId].medium = true;
-    if (currentLevel === 'hard' && pct === 100) userProgress[currentTopicId].hard = true;
+    const topicName = (typeof topics !== 'undefined' && topics[currentTopicId]) ? topics[currentTopicId].name : currentTopicId;
+
+    // Marca progreso de niveles completos y desbloqueos intermedios
+    if (currentLevel === 'easy') {
+        if (pct >= 90) userProgress[currentTopicId].medium = true;
+        if (pct >= 100) userProgress[currentTopicId].easy = true;
+    }
+    if (currentLevel === 'medium') {
+        if (pct >= 95) userProgress[currentTopicId].hard = true;
+        if (pct >= 100) userProgress[currentTopicId].medium = true;
+    }
+    if (currentLevel === 'hard' && pct >= 100) {
+        userProgress[currentTopicId].hard = true;
+    }
+
+    // Trofeos por nivel
+    if (currentLevel === 'easy' && pct >= 90) {
+        addTrophy(`trophy_${currentTopicId}_easy`, '🥉', `Aprendiz de ${topicName}`, 'Lograste completar el nivel principiante con 90% o más. ¡Vamos por más!');
+    }
+    if (currentLevel === 'medium' && pct >= 95) {
+        addTrophy(`trophy_${currentTopicId}_medium`, '🥈', `Intermedio de ${topicName}`, 'Lograste completar el nivel intermedio con 95% o más.');
+    }
+    if (currentLevel === 'hard' && pct >= 100) {
+        addTrophy(`trophy_${currentTopicId}_hard`, '🥇', `Avanzado de ${topicName}`, 'Completaste el ivel difícil con 100%.');
+    }
 
     const progress = userProgress[currentTopicId];
     if (progress.easy && progress.medium && progress.hard) {
-        if (addTrophy(`trophy_${currentTopicId}`, '🏆', `Maestro ${currentTopicId}`, 'Completaste 100% en fácil, medio y difícil')) {
-            setBuddyMood('celebrate', `¡Increíble! Has ganado el trofeo de ${currentTopicId}.`);
+        if (addTrophy(`trophy_${currentTopicId}`, '🏆', `Maestro ${topicName}`, 'Completaste 100% en fácil, medio y difícil.')) {
+            setBuddyMood('celebrate', `¡Increíble! Has ganado el trofeo de ${topicName}.`);
             playSound('correct');
         }
     }
 
-    if (pct === 100) {
+    if (pct >= 100) {
         setBuddyMood('celebrate', "¡100% conseguidos! Eres una leyenda 💪");
         playSound('correct');
     }
+
+    renderTrophies();
+    saveData();
 }
 
 function finishQuiz() {
@@ -616,12 +664,9 @@ function finishQuiz() {
     if(currentLevel === 'easy' && pct >= 90) userProgress[currentTopicId].medium = true;
     if(currentLevel === 'medium' && pct >= 95) userProgress[currentTopicId].hard = true;
 
-    if (pct === 100) {
-        checkAndAwardTrophies(pct);
-    }
+    checkAndAwardTrophies(pct);
 
-    saveData();
-    renderTrophies();
+    // saveData y renderTrophies se ejecutan dentro de checkAndAwardTrophies
 }
 
 function retryLevel() { prepareQuiz(currentLevel); }
