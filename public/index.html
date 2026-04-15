@@ -14,9 +14,9 @@
     
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="md3-surface">
+<body class="md3-surface splash-visible">
     <!-- Contenedor principal de la aplicación. El splash screen aparece al iniciar. -->
-    <d iv id="splash-screen" class="md3-splash">
+    <div id="splash-screen" class="md3-splash">
         <div class="splash-content">
             <div class="splash-logo">🦊</div>
             <div class="md3-progress-linear">
@@ -24,7 +24,7 @@
             </div>
             <h2 class="md3-headline-small">Aprende con Kiko</h2>
         </div>
-    </d>
+    </div>
 
     <!-- Mascota interactiva (Kiko) que muestra mensajes y permite recibir 'pokes'. -->
     <div class="md3-fab-buddy pos-welcome" id="buddy">
@@ -102,8 +102,11 @@
         </section>
 
         <!-- Pantalla principal al iniciar sesión, con opciones para comenzar y llamar a Kiko -->
-        <main id="screen-welcome" class="md3-screen active">
+        <main id="screen-welcome" class="md3-screen">
             <div class="md3-hero-icon">🦊🌍</div>
+            <div class="welcome-avatar">
+                <img id="welcome-avatar" src="https://via.placeholder.com/150?text=🦊" alt="Avatar de Kiko">
+            </div>
             <h1 class="md3-display-large">Aprende con Kiko</h1>
             <p class="md3-body-large">Tu espacio para practicar ingles<br></p>
             <div class="md3-actions-vertical">

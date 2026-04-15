@@ -223,7 +223,7 @@ button,
 }
 
 .md3-btn-tonal {
-    background-color: var(--md-sys-color-secondary-container);
+    background-color: #4C76B8;
     color: var(--md-sys-color-on-secondary-container);
 }
 
@@ -426,6 +426,16 @@ body.call-mode.dark-mode .md3-container {
     opacity: 0;
     pointer-events: none;
 }
+
+body.splash-visible .md3-screen {
+    display: none !important;
+}
+
+body.splash-visible .md3-top-app-bar,
+body.splash-visible .md3-fab-buddy {
+    visibility: hidden !important;
+}
+
 /* === LOGIN === */
 /* Ajusta el layout del formulario de autenticación para centrarlo. */
 #screen-login {
@@ -468,6 +478,23 @@ body.call-mode.dark-mode .md3-container {
     object-fit: cover;  
     border: 4px solid var(--md-sys-color-primary-container);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.welcome-avatar {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--md-sys-color-primary-container);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.welcome-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .edit-badge {

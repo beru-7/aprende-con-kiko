@@ -1,4 +1,8 @@
 require('dotenv').config({ path: __dirname + '/.env' });
+if (!process.env.DATABASE_URL || !process.env.GEMINI_API_KEY) {
+    console.error("Missing required environment variables: DATABASE_URL or GEMINI_API_KEY");
+    process.exit(1);
+}
 console.log("LA URL ES:", process.env.DATABASE_URL);
 const express = require('express');
 const cors = require('cors');
@@ -18,7 +22,7 @@ const pool = new Pool({
 });
 
 
-    // Actualiza la creación de la tabla para incluir 'avatar'
+// Actualiza la creación de la tabla para incluir 'avatar'
 const initDB = async () => {
     try {
         await pool.query(`
@@ -95,8 +99,30 @@ app.post('/api/login', async (req, res) => {
             user: { 
                 username: user.username, 
                 progress: user.progress || {}, 
-                trophies: user.trophies || [] 
+                trophies: user.trophies || [],
+                avatar: user.avatar || null
             } 
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Obtener datos de usuario por nombre
+app.get('/api/user/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const result = await pool.query('SELECT username, progress, trophies, avatar FROM users WHERE username = $1', [username]);
+        if (result.rows.length === 0) return res.status(404).json({ error: "Usuario no encontrado" });
+        const user = result.rows[0];
+        res.json({
+            success: true,
+            user: {
+                username: user.username,
+                progress: user.progress || {},
+                trophies: user.trophies || [],
+                avatar: user.avatar || null
+            }
         });
     } catch (e) {
         res.status(500).json({ error: e.message });
@@ -171,4 +197,15 @@ app.post('/api/generate-quiz', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Kiko Full-Power listo en http://localhost:${PORT}`));
+
+const startServer = async () => {
+    try {
+        await initDB();
+        app.listen(PORT, () => console.log(`🚀 Kiko Full-Power listo en http://localhost:${PORT}`));
+    } catch (err) {
+        console.error('Error al iniciar el servidor:', err);
+        process.exit(1);
+    }
+};
+
+startServer();

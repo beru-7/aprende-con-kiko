@@ -2,7 +2,20 @@
 let userProgress = JSON.parse(localStorage.getItem('emq17_progress')) || { grammar:{}, verbs:{}, logic:{}, self:{}, vocabulary:{}, structure:{}, global:{} };
 let earnedTrophies = JSON.parse(localStorage.getItem('emq17_trophies')) || [];
 let currentUser = null;
-let currentUserAvatar = null; // Para guardar la foto actual
+let currentUserAvatar = null; // URL o Base64 del avatar del usuario
+
+/*
+  Variables clave:
+  - userProgress: progreso por tema guardado localmente o desde servidor.
+  - earnedTrophies: lista de trofeos desbloqueados por el usuario.
+  - currentUser: nombre de usuario que ha iniciado sesión.
+  - currentUserAvatar: imagen de perfil del usuario para mostrar en welcome/perfil.
+  - currentTopicId / currentSubtopicId: tema y subtema seleccionados.
+  - currentLevel: nivel de dificultad seleccionado (easy/medium/hard).
+  - currentQuestions: preguntas cargadas para el quiz actual.
+  - qIndex: índice de la pregunta actual dentro del quiz.
+  - score: contador de respuestas correctas.
+*/
 
 // Estado
 let currentTopicId, currentSubtopicId, currentLevel, currentQuestions, qIndex, score;
@@ -147,6 +160,7 @@ function showScreen(id) {
     document.querySelectorAll('.md3-screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(id);
     if(target) target.classList.add('active');
+    renderUserAvatar();
     
     if (id === 'screen-call') {
         document.body.classList.add('call-mode');
@@ -165,6 +179,14 @@ function showScreen(id) {
     }
     
     updateBuddyPosition(id);
+}
+
+function renderUserAvatar() {
+    const welcomeImg = document.getElementById('welcome-avatar');
+    const profileImg = document.getElementById('profile-img-display');
+    const src = currentUserAvatar || 'https://via.placeholder.com/150?text=🦊';
+    if (welcomeImg) welcomeImg.src = src;
+    if (profileImg) profileImg.src = src;
 }
 
 function goToHome() {
@@ -206,12 +228,13 @@ async function handleAuth() {
 
         if (data.success) {
             currentUser = data.user.username;
-            currentUserAvatar = data.user.avatar; // Guardar el avatar que viene de la DB
+            currentUserAvatar = data.user.avatar || localStorage.getItem('emq17_avatar') || null;
             localStorage.setItem('emq17_username', currentUser);
+            localStorage.setItem('emq17_avatar', currentUserAvatar || '');
             
             if (!isRegisterMode) { 
-                if(data.user.progress && Object.keys(data.user.progress).length > 0) userProgress = data.user.progress;
-                if(data.user.trophies && data.user.trophies.length > 0) earnedTrophies = data.user.trophies;
+                userProgress = data.user.progress || {};
+                earnedTrophies = data.user.trophies || [];
             } else {
                 userProgress = {}; earnedTrophies = [];
             }
@@ -228,17 +251,40 @@ async function handleAuth() {
     }
 }
 
-async function loadData() {
-    if(!currentUser) return;
+async function fetchUserData(username) {
+    try {
+        const response = await fetch(`/api/user/${encodeURIComponent(username)}`);
+        if (!response.ok) return null;
+        const data = await response.json();
+        return data.success ? data.user : null;
+    } catch (e) {
+        console.warn('No se pudo cargar datos del servidor:', e);
+        return null;
+    }
+}
 
-    userProgress = JSON.parse(localStorage.getItem('emq17_progress')) || userProgress;
-    earnedTrophies = JSON.parse(localStorage.getItem('emq17_trophies')) || earnedTrophies;
+async function loadData() {
+    if (!currentUser) return;
+
+    const serverData = await fetchUserData(currentUser);
+    if (serverData) {
+        userProgress = serverData.progress || userProgress;
+        earnedTrophies = serverData.trophies || earnedTrophies;
+        currentUserAvatar = serverData.avatar || currentUserAvatar;
+        localStorage.setItem('emq17_avatar', currentUserAvatar || '');
+    } else {
+        userProgress = JSON.parse(localStorage.getItem('emq17_progress')) || userProgress;
+        earnedTrophies = JSON.parse(localStorage.getItem('emq17_trophies')) || earnedTrophies;
+        currentUserAvatar = localStorage.getItem('emq17_avatar') || currentUserAvatar;
+    }
+
     renderTrophies();
 }
 
 async function saveData() {
     localStorage.setItem('emq17_progress', JSON.stringify(userProgress));
     localStorage.setItem('emq17_trophies', JSON.stringify(earnedTrophies));
+    localStorage.setItem('emq17_avatar', currentUserAvatar || '');
 
     if(currentUser) {
         try {
@@ -257,6 +303,7 @@ function logout() {
         currentUser = null;
         currentUserAvatar = null;
         localStorage.removeItem('emq17_username');
+        localStorage.removeItem('emq17_avatar');
         userProgress = {}; 
         earnedTrophies = [];
         location.reload(); 
@@ -340,6 +387,8 @@ async function saveCroppedImage() {
     
     closeCropperModal();
     setBuddyMood('thinking', "Guardando tu nueva foto...");
+
+    localStorage.setItem('emq17_avatar', base64Image);
 
     // Enviar la imagen
     try {
@@ -739,26 +788,30 @@ function speakResponse(text) {
 }
 
 //INICIALIZACIÓN
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    document.body.classList.add('splash-visible');
     applyTheme();
     console.log("🎮 Aprende con Kiko: Cargando...");
 
     const savedUser = localStorage.getItem('emq17_username');
+    const savedAvatar = localStorage.getItem('emq17_avatar');
+    if (savedAvatar) currentUserAvatar = savedAvatar;
     
-    setTimeout(() => {
+    setTimeout(async () => {
         const splash = document.getElementById('splash-screen');
-        if(splash) splash.classList.add('splash-hidden');
+        if (splash) splash.classList.add('splash-hidden');
+        document.body.classList.remove('splash-visible');
 
         if (savedUser) {
             currentUser = savedUser;
-            loadData(); 
+            await loadData(); 
             renderTrophies();
             showScreen('screen-welcome'); 
             setBuddyMood('happy', `¡Hola de nuevo, ${currentUser}! 👋`);
         } else {
             showScreen('screen-login');
-            setBuddyMood('happy', "¡Bienvenido, ${currentUser}! Inicia sesión.");
-        } 
+            setBuddyMood('happy', "¡Bienvenido! Inicia sesión.");
+        }
 
     }, 2500);
 });
