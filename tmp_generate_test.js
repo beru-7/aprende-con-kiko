@@ -1,22 +1,22 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const quizModel = genAI.getGenerativeModel({ model: "gemini-2.5-flash", generationConfig: { responseMimeType: "application/json" } });
-const prompt = `Genera 5 preguntas de opción múltiple para aprender inglés.
+const quizModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash", generationConfig: { responseMimeType: "application/json" } });
+const prompt = `Genera 5 preguntas de opciï¿½n mï¿½ltiple para aprender inglï¿½s.
 Tema: "Vocabulario". Dificultad: "easy".
 
 Debes responder ESTRICTAMENTE con este formato JSON Array:
 [
   {
     "q_en": "Question in English",
-    "q_es": "Traducción de la pregunta al español",
+    "q_es": "Traducciï¿½n de la pregunta al espaï¿½ol",
     "opts": ["Correct Option", "Wrong Option"],
     "ans": 0,
     "hint_en": "Short hint in English",
-    "hint_es": "Pista corta en Español"
+    "hint_es": "Pista corta en Espaï¿½ol"
   }
 ]
-Asegúrate de que la opción correcta sea SIEMPRE la primera (índice 0).
+Asegï¿½rate de que la opciï¿½n correcta sea SIEMPRE la primera (ï¿½ndice 0).
 `;
 (async () => {
   try {

@@ -162,6 +162,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // GENERADOR DE PREGUNTAS
+// GENERADOR DE PREGUNTAS
 app.post('/api/generate-quiz', async (req, res) => {
     try {
         const { topic, difficulty } = req.body;
@@ -186,12 +187,20 @@ app.post('/api/generate-quiz', async (req, res) => {
         `;
 
         const result = await quizModel.generateContent(prompt);
-        const text = result.response.text();
+        
+        // 1. Guardamos el texto en una variable 'let' para poder modificarla
+        let text = result.response.text();
+        
+        // 2. EL TRUCO CLAVE: Limpiamos el markdown (```json y ```) que Gemini suele agregar
+        text = text.replace(/```json/g, "").replace(/```/g, "").trim();
+        
+        // 3. Ahora sí, lo transformamos de forma segura
         const questions = JSON.parse(text);
         res.json(questions);
 
     } catch (error) {
         console.error("Error Quiz:", error);
+        // Devolvemos un arreglo vacío para que tu front-end detecte el error
         res.json([]); 
     }
 });

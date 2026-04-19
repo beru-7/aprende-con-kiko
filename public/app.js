@@ -526,20 +526,23 @@ async function prepareQuiz(lvl) {
             body: JSON.stringify({ topic: contextForAI, difficulty: lvl })
         });
         const questionsAI = await response.json();
-        startQuizWithData(questionsAI && questionsAI.length > 0 ? questionsAI : getLocalQuestions(lvl));
+        
+        
+        if (questionsAI && questionsAI.length > 0) {
+            startQuizWithData(questionsAI);
+        } else {
+            
+            alert("Kiko no pudo pensar en preguntas ahorita. ¡Intenta de nuevo!");
+            showScreen('screen-topics'); 
+        }
     } catch (e) {
-        startQuizWithData(getLocalQuestions(lvl));
+        // Si hay un error de conexión o el servidor falla
+        console.error("Error al obtener quiz:", e);
+        alert("¡Oh no! No se pudo conectar con Kiko. Intenta otra vez.");
+        showScreen('screen-topics'); 
     }
 }
-
-function getLocalQuestions(lvl) {
-    if(typeof questionBank === 'undefined') return [];
-    let qs = currentTopicId === 'global' ? questionBank : questionBank.filter(q => q.topicId === currentTopicId);
-    if(currentSubtopicId !== 'all' && currentTopicId !== 'global') qs = qs.filter(q => q.subtopicId === currentSubtopicId);
-    let qCount = lvl === 'easy' ? 5 : (lvl === 'medium' ? 10 : 20);
-    return [...qs].sort(() => Math.random() - 0.5).slice(0, qCount);
-}
-
+ 
 function startQuizWithData(data) {
     currentQuestions = data;
     qIndex = 0; 
