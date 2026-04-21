@@ -1,87 +1,44 @@
-﻿/* === VARIABLES DE TEMA (Material Design 3) === */
-/* Definen la paleta de colores y transiciones que usa toda la aplicaciÃ³n. */
+/* === VARIABLES DE TEMA (Material Design 3) === */
+/* Definen la paleta de colores y transiciones que usa toda la aplicación. */
 :root {
-    /* --- PALETA DE COLORES EXTENDIDA (AZUL-NARANJA-VIVOS) --- */
-    /* Azules vibrantes: Para elementos principales y acentos dinámicos */
-    --color-blue-dark: #0D47A1;      /* Azul muy oscuro - títulos, textos principales */
-    --color-blue-vibrant: #1E3A8A;   /* Azul vibrante - botones, acentos vivos */
-    --color-blue-medium: #1565C0;    /* Azul medio - botones primarios */
-    --color-blue-light: #60A5FA;     /* Azul claro vibrante - hover, acentos */
-    --color-blue-very-light: #DBEAFE; /* Azul muy claro - fondos suaves */
-    
-    /* Naranjas vibrantes: Para acentos secundarios y énfasis */
-    --color-orange-dark: #D97706;    /* Naranja oscuro vibrante - textos énfasis */
-    --color-orange-medium: #FF9800;  /* Naranja medio - botones secundarios */
-    --color-orange-light: #FFCC80;   /* Naranja claro vibrante */
-    --color-orange-very-light: #FFE8B6; /* Naranja muy claro - fondos */
-    
-    /* Acentos complementarios: Para mayor dinamismo y diversión */
-    --color-turquoise: #06B6D4;      /* Turquesa vibrante - acentos divertidos */
-    --color-lime: #84CC16;           /* Verde lima - acentos vitales */
-    --color-amber: #FBBF24;          /* Ámbar/Dorado - acentos cálidos */
-    --color-rose: #FB7185;           /* Rosa - acentos suaves */
-    
-    /* Fondos alternativos: Crema y beige en lugar de blanco */
-    --color-cream: #FFFBEB;          /* Crema muy clara - fondos principales */
-    --color-beige: #F5E6D3;          /* Beige cálido - superficies alternadas */
-    --color-light-yellow: #FEFCE8;   /* Amarillo muy claro - fondos alternos */
-    
-    /* Textos: Colores oscuros y vibrantes */
-    --color-text-dark: #1F2937;      /* Gris muy oscuro - textos principales */
-    --color-text-blue: #1E3A8A;      /* Azul oscuro - textos enlaces */
-    
-    /* CAMBIO: Colores para MODO OSCURO - Versiones claras y comodas de vibrantes */
-    --color-turquoise-light: #22D3EE;     /* Turquesa claro - acentos en dark mode */
-    --color-amber-light: #FCD34D;         /* Ambar claro - hover en dark mode */
-    --color-blue-light-dark: #93C5FD;     /* Azul claro - elementos en dark mode */
-    --color-orange-light-dark: #FFB74D;   /* Naranja claro - acentos en dark mode */
-    --color-text-light-dark: #E5E7EB;     /* Gris claro - textos en dark mode */
-    
-    /* Colores para MODO OSCURO: Versiones claras de vibrantes */
-    --color-turquoise-light: #22D3EE;     /* Turquesa claro - acentos en dark mode */
-    --color-amber-light: #FCD34D;         /* Ámbar claro - hover en dark mode */
-    --color-blue-light-dark: #93C5FD;     /* Azul claro - elementos en dark mode */
-    --color-orange-light-dark: #FFB74D;   /* Naranja claro - acentos en dark mode */
-    --color-text-light-dark: #E5E7EB;     /* Gris claro - textos en dark mode */
-    
     /* --- COLORES PRINCIPALES --- */
-    --md-sys-color-primary: var(--color-blue-dark);
+    --md-sys-color-primary: #1f73d2;
     --md-sys-color-on-primary: #ffffff;
-    --md-sys-color-primary-container: var(--color-blue-very-light);
-    --md-sys-color-on-primary-container: #0D1F4D;
+    --md-sys-color-primary-container: #e8f0ff;
+    --md-sys-color-on-primary-container: #0f3f80;
     
     /* --- COLORES SECUNDARIOS --- */
-    --md-sys-color-secondary: var(--color-orange-medium);
-    --md-sys-color-on-secondary: #000000;
-    --md-sys-color-secondary-container: var(--color-orange-light);
-    --md-sys-color-on-secondary-container: #4D2600;
+    --md-sys-color-secondary: #00695c;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #d0f3ec;
+    --md-sys-color-on-secondary-container: #004d42;
 
     /* --- COLORES DE ERROR --- */
-    --md-sys-color-error: #f44336;
+    --md-sys-color-error: #ba1a1a;
     --md-sys-color-on-error: #ffffff;
 
     /* --- COLORES DE SUPERFICIE Y FONDO --- */
-    --md-sys-color-surface: var(--color-orange-dark); /* Color de fondo exterior: naranja oscuro */
-    --md-sys-color-on-surface: var(--color-text-dark);
-    --md-sys-color-surface-container: var(--color-cream); /* Contenedor principal: CREMA en lugar de blanco */
-    --md-sys-color-surface-container-high: var(--color-beige); /* Superficies alternas: BEIGE en lugar de gris */
-    --md-sys-color-outline: var(--color-blue-vibrant);
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #1b1f23;
+    --md-sys-color-surface-container: #f7f8fa;
+    --md-sys-color-surface-container-high: #edf1f7;
+    --md-sys-color-outline: #9aa6b6;
     
     /* --- COLORES ESPECÍFICOS DE COMPONENTES (TEMA CLARO) --- */
     /* Botones Tonal */
-    --btn-tonal-bg: var(--color-orange-light);
-    --btn-tonal-bg-hover: var(--color-amber);
+    --btn-tonal-bg: #4C76B8;
+    --btn-tonal-bg-hover: #11aad5;
     
     /* Botones Filled */
-    --btn-filled-hover: var(--color-blue-vibrant);
+    --btn-filled-hover: #004b7a;
     
     /* Botones Text */
-    --btn-text-hover: rgba(13, 71, 161, 0.12);
+    --btn-text-hover: rgba(0, 100, 190, 0.12);
     
     /* Trofeos */
-    --trophy-bg: var(--color-orange-very-light);
-    --trophy-border: var(--color-orange-medium);
-    --trophy-text: var(--color-orange-dark);
+    --trophy-bg: #fff8e1;
+    --trophy-border: #ffe0b2;
+    --trophy-text: #5d4037;
     
     /* --- TRANSICIONES --- */
     --transition-standard: all 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -90,43 +47,23 @@
 /* === MODO OSCURO === */
 /* Reemplaza variables de color para que la UI se vea en tema oscuro. */
 body.dark-mode {
-    /* --- COLORES PRINCIPALES (TEMA OSCURO) --- */
-    --md-sys-color-primary: #22D3EE;
-    --md-sys-color-on-primary: #0F172A;
-    --md-sys-color-primary-container: #1a3a40;
+    --md-sys-color-primary: #8ecdff;
+    --md-sys-color-on-primary: #003450;
+    --md-sys-color-primary-container: #1b2a3c;
+    --md-sys-color-secondary: #66f3d7;
+    --md-sys-color-on-secondary: #003731;
+    --md-sys-color-secondary-container: #274f49;
     
-    /* --- COLORES SECUNDARIOS (TEMA OSCURO) --- */
-    --md-sys-color-secondary: #FFB74D;
-    --md-sys-color-on-secondary: #1F2937;
-    --md-sys-color-secondary-container: #4d3728;
-    
-    /* --- COLORES DE SUPERFICIE Y FONDO (TEMA OSCURO) --- */
-    --md-sys-color-surface: #0f172a;
-    --md-sys-color-on-surface: #E5E7EB;
-    --md-sys-color-surface-container: #1a2332;
-    --md-sys-color-surface-container-high: #252d3d;
-    --md-sys-color-outline: #22D3EE;
-    
-    /* --- COLORES ESPECÃFICOS DE COMPONENTES (TEMA OSCURO) --- */
-    /* Botones Tonal */
-    --btn-tonal-bg: #2a4a5e;
-    --btn-tonal-bg-hover: #22D3EE;
-    
-    /* Botones Filled */
-    --btn-filled-hover: #FFB74D;
-    
-    /* Botones Text */
-    --btn-text-hover: rgba(34, 211, 238, 0.12);
-    
-    /* Trofeos */
-    --trophy-bg: #2a2a2a;
-    --trophy-border: #FCD34D;
-    --trophy-text: #FCD34D;
+    --md-sys-color-surface: #0a0b0c;
+    --md-sys-color-on-surface: #e1e2e5;
+    --md-sys-color-surface-container: #1d2023;
+    --md-sys-color-surface-container-high: #282a2d;
+    --md-sys-color-outline: #4c6179;
 }
 
 
 /* === ESTILOS BASE === */
-/* TipografÃ­a y layout global del body (centra la app en la ventana). */
+/* Tipografía y layout global del body (centra la app en la ventana). */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--md-sys-color-surface);
@@ -140,7 +77,7 @@ body {
 }
 
 /* === CONTENEDOR PRINCIPAL === */
-/* Panel principal con ancho mÃ¡ximo, fondo y sombra. */
+/* Panel principal con ancho máximo, fondo y sombra. */
 .md3-container {
     background-color: var(--md-sys-color-surface-container);
     width: 100%;
@@ -162,7 +99,7 @@ body {
 }
 
 /* === BARRA SUPERIOR (Top App Bar) === */
-/* Barra de navegaciÃ³n fija con iconos y controles rÃ¡pidos. */
+/* Barra de navegación fija con iconos y controles rápidos. */
 .md3-top-app-bar {
     display: flex;
     align-items: center;
@@ -201,17 +138,16 @@ body {
 .md3-switch { position: relative; width: 52px; height: 32px; }
 .md3-switch input { opacity: 0; width: 0; height: 0; }
 
-/* CAMBIO: Switch slider - Beige con borde turquesa */
 .md3-switch-slider {
     position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-    background-color: var(--color-beige);
-    border: 2px solid var(--color-turquoise);
+    background-color: var(--md-sys-color-surface-container-high);
+    border: 2px solid var(--md-sys-color-outline);
     border-radius: 16px; transition: .3s; display: flex; align-items: center;
 }
 
 .md3-switch-slider:before {
     position: absolute; content: ""; height: 24px; width: 24px; left: 2px;
-    background-color: var(--color-turquoise); border-radius: 50%; transition: .3s; z-index: 2;
+    background-color: var(--md-sys-color-outline); border-radius: 50%; transition: .3s; z-index: 2;
 }
 
 .icon-sun, .icon-moon { position: absolute; font-size: 16px; z-index: 1; transition: .3s; }
@@ -224,7 +160,7 @@ input:checked + .md3-switch-slider .icon-moon { opacity: 1; }
 input:checked + .md3-switch-slider .icon-sun { opacity: 0; }
 
 /* === PANTALLAS (views) === */
-/* Cada secciÃ³n se muestra/oculta para emular una app de pÃ¡gina Ãºnica (SPA). */
+/* Cada sección se muestra/oculta para emular una app de página única (SPA). */
 .md3-screen {
     display: none; padding: 24px; flex-grow: 1;
     animation: md3-fade-in 0.4s ease-out;
@@ -235,10 +171,8 @@ input:checked + .md3-switch-slider .icon-sun { opacity: 0; }
     align-items: center; text-align: center; gap: 16px; 
 }
 
-/* CAMBIO: Título principal - Azul vibrante con sombra para máximo contraste y dinamismo */
 .md3-display-large {
-    font-size: 3rem; color: var(--color-blue-vibrant); margin: 20px 0;
-    text-shadow: 0 2px 4px rgba(30, 58, 138, 0.15);
+    font-size: 3rem; color: var(--md-sys-color-primary); margin: 20px 0;
 }
 
 /* === MAPA DE APRENDIZAJE === */
@@ -252,33 +186,14 @@ input:checked + .md3-switch-slider .icon-sun { opacity: 0; }
     margin: 20px auto;
 }
 
-/* CAMBIO: Tarjetas de tópicos - Crema base con hover en colores variados vibrantes */
 .md3-card-topic {
-    background-color: var(--color-cream);
+    background-color: var(--md-sys-color-surface-container-high);
     border-radius: 24px; padding: 20px; cursor: pointer;
     transition: var(--transition-standard);
     display: flex; flex-direction: column; align-items: center;
-    border: 2px solid transparent;
 }
 
-.md3-card-topic:hover { 
-    background-color: var(--color-light-yellow);
-    border-color: var(--color-amber);
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(251, 191, 36, 0.2);
-}
-
-body.dark-mode .md3-card-topic {
-    background-color: #1a2332;
-    border-color: #22D3EE;
-    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.15);
-}
-
-body.dark-mode .md3-card-topic:hover {
-    background-color: #252d3d;
-    border-color: #FFB74D;
-    box-shadow: 0 6px 16px rgba(255, 183, 77, 0.2);
-}
+.md3-card-topic:hover { background-color: var(--md-sys-color-primary-container); transform: scale(1.05); }
 
 /* === SALA DE TROFEOS === */
 /* Estilos del panel donde se muestran los trofeos desbloqueados. */
@@ -287,17 +202,15 @@ body.dark-mode .md3-card-topic:hover {
     gap: 16px; width: 100%; margin-top: 20px;
 }
 
-/* CAMBIO: Tarjetas de trofeos - Crema con borde ámbar dorado vibrante */
 .md3-trophy-card {
-    background-color: var(--color-cream); padding: 16px; border-radius: 20px;
-    border: 3px solid var(--color-amber); text-align: center; color: var(--color-text-dark);
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+    background-color: #fff8e1; padding: 16px; border-radius: 20px;
+    border: 2px solid #ffe0b2; text-align: center; color: #5d4037;
 }
 
-body.dark-mode .md3-trophy-card { background-color: #2a2a2a; border-color: #FCD34D; color: #FCD34D; }
+body.dark-mode .md3-trophy-card { background-color: #3e2723; border-color: #5d4037; color: #ffe0b2; }
 
 /* === ESTILOS DE BOTONES === */
-/* Botones principales de la app: acciÃ³n, tonal, outline, text. */
+/* Botones principales de la app: acción, tonal, outline, text. */
 .md3-actions-vertical {
     display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; margin-top: 24px;
 }
@@ -326,63 +239,36 @@ button,
     color: var(--md-sys-color-on-primary);
 }
 
-/* CAMBIO: Botón filled hover - Azul más oscuro para mayor énfasis */
 .md3-btn-filled:hover {
-    background-color: var(--color-blue-vibrant);
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    background-color: #004b7a;
 }
 
-body.dark-mode .md3-btn-filled:hover {
-    background-color: #FFB74D;
-    color: #0F172A;
-}
-
-/* CAMBIO: Botón tonal - Naranja claro con texto naranja oscuro, hover ámbar vibrante */
 .md3-btn-tonal {
-    background-color: var(--color-orange-light);
-    color: var(--color-orange-dark);
-    border: 2px solid var(--color-orange-medium);
+    background-color: #4C76B8;
+    color: var(--md-sys-color-on-secondary-container);
 }
 
 .md3-btn-tonal:hover {
-    background-color: var(--color-amber);
-    color: #ffffff;
-    border-color: var(--color-amber);
-    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    background-color: #11aad5;
 }
 
-body.dark-mode .md3-btn-tonal {
-    background-color: #2a4a5e;
-    color: #22D3EE;
-}
-
-body.dark-mode .md3-btn-tonal:hover {
-    background-color: #22D3EE;
-    color: #0F172A;
-}
-
-/* CAMBIO: Botón outline - Borde turquesa vibrante con hover turquesa claro */
 .md3-btn-outline {
     background: transparent;
-    border: 2px solid var(--color-turquoise);
-    color: var(--color-turquoise);
+    border: 1px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-on-surface);
 }
 
 .md3-btn-outline:hover {
-    background: var(--color-blue-very-light);
-    border-color: var(--color-blue-vibrant);
-    color: var(--color-blue-vibrant);
+    background: var(--md-sys-color-surface-container-high);
 }
 
-/* CAMBIO: Botón text - Texto azul vibrante con hover crema */
 .md3-btn-text {
     background: transparent;
-    color: var(--color-turquoise);
+    color: var(--md-sys-color-primary);
 }
 
 .md3-btn-text:hover {
-    background: var(--color-light-yellow);
-    color: var(--color-blue-vibrant);
+    background: rgba(0, 100, 190, 0.12);
 }
 
 .btn-close {
@@ -390,52 +276,41 @@ body.dark-mode .md3-btn-tonal:hover {
     color: var(--md-sys-color-on-error) !important;
 }
 
-/* CAMBIO: Indicador de progreso - Fondo beige para contraste vibrante */
 .md3-progress-indicator {
     width: 100%;
     height: 10px;
     border-radius: 999px;
-    background-color: var(--color-beige);
+    background-color: var(--md-sys-color-surface-container-high);
     overflow: hidden;
     margin: 0;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.18);
 }
 
-/* CAMBIO: Barra de progreso - Gradiente vibrante azul a naranja a turquesa */
 #progress-bar {
     height: 100%;
     width: 0;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--color-blue-vibrant), var(--color-orange-medium), var(--color-turquoise));
+    background: linear-gradient(90deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
     transition: width 0.25s ease;
 }
 
 .md3-fab-buddy { position: fixed; z-index: 100; transition: var(--transition-standard); }
 .pos-welcome { top: 15%; left: 10%; transform: scale(1.1); }
 
-/* CAMBIO: Contenedor de Kiko (mascota) - Crema con borde turquesa vibrante */
 .md3-buddy-container {
     position: relative;
-    width: 80px; height: 80px; background-color: var(--color-cream);
-    border: 3px solid var(--color-turquoise);
+    width: 80px; height: 80px; background-color: var(--md-sys-color-primary-container);
     border-radius: 28px; display: flex; align-items: center; justify-content: center;
-    font-size: 3rem; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25); cursor: pointer;
+    font-size: 3rem; box-shadow: 0 4px 8px rgba(0,0,0,0.2); cursor: pointer;
 }
 
-body.dark-mode .md3-buddy-container {
-    background-color: #1a3a40;
-    border-color: #22D3EE;
-    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.15);
-}
-
-/* CAMBIO: Burbuja de Kiko - Beige cálido con sombra turquesa */
 .md3-buddy-bubble {
     position: absolute;
     bottom: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--color-beige);
-    color: var(--color-text-dark);
+    background: var(--md-sys-color-surface-container-high);
+    color: var(--md-sys-color-on-surface);
     padding: 8px 12px;
     border-radius: 12px;
     white-space: nowrap;
@@ -455,30 +330,12 @@ body.dark-mode .md3-buddy-container {
 }
 
 
-/* CAMBIO: Tarjetas de opción (subtemas) - Crema con borde turquesa en hover */
 .md3-option-card {
-    background-color: var(--color-cream);
-    padding: 16px 24px; border-radius: 16px; border: 2px solid var(--color-beige);
-    color: var(--color-text-dark);
+    background-color: var(--md-sys-color-surface-container-high);
+    padding: 16px 24px; border-radius: 16px; border: 2px solid transparent;
     cursor: pointer; text-align: left; transition: var(--transition-standard); width: 100%; font-size: 1.1rem;
 }
-.md3-option-card:hover { 
-    border-color: var(--color-turquoise);
-    background-color: var(--color-light-yellow);
-    box-shadow: 0 4px 8px rgba(6, 182, 212, 0.15);
-}
-
-body.dark-mode .md3-option-card {
-    background-color: #1a2332;
-    border-color: #252d3d;
-    color: #E5E7EB;
-}
-
-body.dark-mode .md3-option-card:hover {
-    border-color: #22D3EE;
-    background-color: #252d3d;
-    box-shadow: 0 4px 8px rgba(34, 211, 238, 0.25);
-}
+.md3-option-card:hover { border-color: var(--md-sys-color-outline); }
 
 /* === MODO LLAMADA === */
 /* Ajusta estilos de llamada para que respeten el tema claro/oscuro. */
@@ -513,10 +370,8 @@ body.call-mode.dark-mode .md3-container {
     transition: var(--transition-standard);
 }
 
-/* CAMBIO: Botón micrófono - Gradiente vibrante turquesa a naranja */
 .btn-mic {
-    background: linear-gradient(135deg, var(--color-turquoise), var(--color-orange-medium));
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    background: linear-gradient(135deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
 }
 
 .btn-mic:hover {
@@ -561,21 +416,19 @@ body.call-mode.dark-mode .md3-container {
     animation: splash-pop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* CAMBIO: Barra de progreso lineal (splash) - Beige vibrante */
 .md3-progress-linear {
     width: 150px;
     height: 4px;
-    background-color: var(--color-beige);
+    background-color: var(--md-sys-color-primary-container);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
 }
 
-/* CAMBIO: Barra de progreso indeterminada (splash) - Azul vibrante animado */
 .progress-bar-indeterminate {
     width: 40%;
     height: 100%;
-    background: linear-gradient(90deg, var(--color-blue-vibrant), var(--color-turquoise));
+    background-color: var(--md-sys-color-primary);
     position: absolute;
     animation: indeterminate 1.5s infinite linear;
 }
@@ -605,7 +458,7 @@ body.splash-visible .md3-fab-buddy {
 }
 
 /* === LOGIN === */
-/* Ajusta el layout del formulario de autenticaciÃ³n para centrarlo. */
+/* Ajusta el layout del formulario de autenticación para centrarlo. */
 #screen-login {
     display: none; 
     flex-direction: column;
@@ -639,25 +492,23 @@ body.splash-visible .md3-fab-buddy {
     height: 160px;
 }
 
-/* CAMBIO: Avatar del perfil - Borde turquesa con sombra vibrante */
 #profile-img-display {
     width: 100%;
     height: 100%;
     border-radius: 50%; 
     object-fit: cover;  
-    border: 4px solid var(--color-turquoise);
-    box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);
+    border: 4px solid var(--md-sys-color-primary-container);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* CAMBIO: Avatar de bienvenida - Borde turquesa con sombra vibrante */
 .welcome-avatar {
     width: 140px;
     height: 140px;
     margin: 0 auto 16px;
     border-radius: 50%;
     overflow: hidden;
-    border: 4px solid var(--color-turquoise);
-    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+    border: 4px solid var(--md-sys-color-primary-container);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
 .welcome-avatar img {
@@ -667,13 +518,12 @@ body.splash-visible .md3-fab-buddy {
     display: block;
 }
 
-/* CAMBIO: Badge de edición - Turquesa vibrante con hover ámbar */
 .edit-badge {
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background-color: var(--color-turquoise);
-    color: #ffffff;
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -681,23 +531,12 @@ body.splash-visible .md3-fab-buddy {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     transition: transform 0.2s ease;
 }
 
 .edit-badge:hover {
     transform: scale(1.1);
-    background-color: var(--color-amber);
-    color: #ffffff;
-    box-shadow: 0 4px 16px rgba(251, 191, 36, 0.4);
-}
-
-body.dark-mode .edit-badge {
-    background-color: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
-}
-
-body.dark-mode .edit-badge:hover {
     background-color: var(--md-sys-color-primary-container);
     color: var(--md-sys-color-on-primary-container);
 }

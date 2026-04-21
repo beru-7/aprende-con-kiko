@@ -125,7 +125,6 @@ const buddySupportMessages = [
     "¡Cada pregunta te hace más fuerte!",
     "¡Estoy aquí para ayudarte siempre!",
     "¡Tu esfuerzo es lo que más importa!",
-    "Arremangala arrempujala, si, arremangala arrempujala, no 🎵",
     "¡Recuerda que la práctica hace al maestro!",
     "Juega minecraft, aprende inglés. ¡Es la fórmula secreta! 😉"   
 ];
@@ -403,6 +402,7 @@ async function saveCroppedImage() {
             playSound('correct');
         } else {
             throw new Error('Error en el servidor');
+            playSound( 'incorrect');
         }
     } catch (err) {
         console.error("Error al subir avatar:", err);
@@ -538,7 +538,7 @@ async function prepareQuiz(lvl) {
     } catch (e) {
         // Si hay un error de conexión o el servidor falla
         console.error("Error al obtener quiz:", e);
-        alert("¡Oh no! No se pudo conectar con Kiko. Intenta otra vez.");
+        alert("¡Oh no! ¡Parece que Kiko no se puede concentrar!. Intenta otra vez.");
         showScreen('screen-topics'); 
     }
 }
@@ -597,7 +597,7 @@ function checkAnswer(btn, isCorrect, allOps) {
         buddyEmoji.classList.add('anim-celebrate');
         setTimeout(() => buddyEmoji.classList.remove('anim-celebrate'), 600);
     } else {
-        btn.style.backgroundColor = "rgba(186, 26, 26, 0.2)";
+        btn.style.backgroundColor = "rgba(223, 20, 20, 0.54)";
         playSound('incorrect');
         setBuddyMood('thinking', "¡Casi!");
 
@@ -816,5 +816,5 @@ document.addEventListener('DOMContentLoaded', async () => {
             setBuddyMood('happy', "¡Bienvenido! Inicia sesión.");
         }
 
-    }, 2500);
+    }, darkMode ? 2500 : 800);
 });
