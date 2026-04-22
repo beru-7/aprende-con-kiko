@@ -508,8 +508,9 @@ async function prepareQuiz(lvl) {
     let subtopicName = "";
 
     if (currentTopicId === 'global') {
-        topicName = "Mix de temas de inglés (Gramática, Vocabulario, Verbos, Lógica). Mínimo 2 preguntas de cada uno.";
-    } else if (typeof topics !== 'undefined' && topics[currentTopicId]) {
+        topicName = "Mix variado de preguntas aleatorias sobre Gramática, Vocabulario, Verbos y Lógica en inglés.";
+    }
+    else if (typeof topics !== 'undefined' && topics[currentTopicId]) {
         topicName = topics[currentTopicId].name;
         if (currentSubtopicId && currentSubtopicId !== 'all') {
             const sub = topics[currentTopicId].subtopics.find(s => s.id === currentSubtopicId);
