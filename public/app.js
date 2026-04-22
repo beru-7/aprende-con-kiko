@@ -507,12 +507,15 @@ async function prepareQuiz(lvl) {
     let topicName = currentTopicId;
     let subtopicName = "";
 
-    if (typeof topics !== 'undefined' && topics[currentTopicId]) {
+    if (currentTopicId === 'global') {
+        topicName = "Mix de temas de inglés (Gramática, Vocabulario, Verbos, Lógica). Mínimo 2 preguntas de cada uno.";
+    } else if (typeof topics !== 'undefined' && topics[currentTopicId]) {
         topicName = topics[currentTopicId].name;
         if (currentSubtopicId && currentSubtopicId !== 'all') {
             const sub = topics[currentTopicId].subtopics.find(s => s.id === currentSubtopicId);
             if (sub) subtopicName = sub.name;
         }
+    }
     }
 
     const contextForAI = subtopicName ? `${topicName} (${subtopicName})` : topicName;
@@ -541,7 +544,7 @@ async function prepareQuiz(lvl) {
         alert("¡Oh no! ¡Parece que Kiko no se puede concentrar!. Intenta otra vez.");
         showScreen('screen-topics'); 
     }
-}
+
  
 function startQuizWithData(data) {
     currentQuestions = data;
