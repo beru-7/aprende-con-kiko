@@ -516,7 +516,7 @@ async function prepareQuiz(lvl) {
             if (sub) subtopicName = sub.name;
         }
     }
-    }
+    
 
     const contextForAI = subtopicName ? `${topicName} (${subtopicName})` : topicName;
     document.getElementById('question-text').innerText = "🦊 Kiko está preparando tu reto...";
@@ -544,7 +544,7 @@ async function prepareQuiz(lvl) {
         alert("¡Oh no! ¡Parece que Kiko no se puede concentrar!. Intenta otra vez.");
         showScreen('screen-topics'); 
     }
-
+}
  
 function startQuizWithData(data) {
     currentQuestions = data;
